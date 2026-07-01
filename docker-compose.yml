@@ -1,0 +1,72 @@
+# Brings up the full stack: Ollama (local Llama), the FastAPI service, and the
+# Streamlit UI — sharing one SQLite volume for the audit trail.
+#
+# Reviewer flow:  cp .env.example .env  &&  docker compose up
+#   - API   -> http://localhost:8000/docs
+#   - UI    -> http://localhost:8501
+#
+# KEY GAP (documented, not hidden): Ollama removes the key requirement only for the
+# completeness critic. accuracy (OpenAI) and logic (Anthropic) still fall back to
+# local Llama unless you put real keys in .env. Set ARBITRATION_MODE=local_only to
+# force all three through Ollama with no keys (lower disagreement quality).
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  # One-shot: pulls the Llama model into the shared volume, then exits.
+  ollama-pull:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+    entrypoint: ["ollama", "pull", "llama3"]
+    volumes:
+      - ollama_models:/root/.ollama
+
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      ollama-pull:
+        condition: service_completed_successfully
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434/v1
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ARBITRATION_MODE=${ARBITRATION_MODE:-auto}
+      - ARBITRATION_DB_PATH=/data/arbitrations.db
+    volumes:
+      - arbitration_data:/data
+
+  ui:
+    build: .
+    command: ["streamlit", "run", "ui/app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434/v1
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - ARBITRATION_MODE=${ARBITRATION_MODE:-auto}
+      - ARBITRATION_DB_PATH=/data/arbitrations.db
+    volumes:
+      - arbitration_data:/data
+
+volumes:
+  ollama_models:
+  arbitration_data:
