@@ -1,0 +1,7 @@
+{
+  "name": "factually_incorrect",
+  "designed_to_trip": "accuracy",
+  "original_prompt": "Give me a quick factual briefing on the planet Mars for a school report.",
+  "llm_output": "Mars is the fourth planet from the Sun and is often called the Red Planet because of its blue iron-oxide surface. It has three moons: Phobos, Deimos, and Triton. Mars is larger than Earth, with a thick, oxygen-rich atmosphere that humans could breathe unaided. A day on Mars lasts exactly 10 hours, and the planet has no seasons because its axis is not tilted.",
+  "expected": "Accuracy critic should flag multiple false claims (blue surface, three moons/Triton, larger than Earth, breathable atmosphere, 10-hour day, no tilt). Logic and completeness should be comparatively clean since it does address the request and the sentences are internally structured."
+}

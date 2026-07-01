@@ -1,0 +1,7 @@
+{
+  "name": "genuinely_good",
+  "designed_to_trip": "none (control)",
+  "original_prompt": "In two or three sentences, explain why ice floats on water.",
+  "llm_output": "Ice floats because water is unusual: when it freezes, its molecules arrange into a crystal lattice that holds them slightly farther apart than they are in liquid water. This makes ice about 9% less dense than the liquid, so it floats. That same expansion is why water pipes can burst in winter.",
+  "expected": "A correct, well-reasoned, complete answer. All three critics should score high (>=4) with high confidence and no real issues, ideally triggering the unanimous-pass short-circuit (adjudicated=False)."
+}

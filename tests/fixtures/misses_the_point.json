@@ -1,0 +1,7 @@
+{
+  "name": "misses_the_point",
+  "designed_to_trip": "completeness",
+  "original_prompt": "I'm comparing two laptops for video editing under $1500. Tell me which is better for 4K editing, how much RAM each has, and which has a better warranty.",
+  "llm_output": "Both laptops are excellent choices for everyday use. The first laptop has a sleek aluminum design and comes in three attractive colors, while the second has a slightly larger screen that's great for watching movies. Both have comfortable keyboards and good battery life for browsing the web. You really can't go wrong with either one for general productivity and casual tasks.",
+  "expected": "Completeness critic should flag that none of the three asked sub-questions (4K editing performance, RAM of each, warranty comparison) were answered. The statements made are accurate and not illogical, so accuracy and logic should be comparatively clean — the failure is coverage of intent."
+}

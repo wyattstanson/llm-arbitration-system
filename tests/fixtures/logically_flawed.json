@@ -1,0 +1,7 @@
+{
+  "name": "logically_flawed",
+  "designed_to_trip": "logic",
+  "original_prompt": "Should our startup switch from monthly to annual billing? Walk me through the reasoning.",
+  "llm_output": "Yes, switch to annual billing immediately. Annual billing means customers pay once a year. Companies that bill annually have higher revenue per customer. Therefore, switching to annual billing will increase your revenue per customer. Furthermore, our biggest competitor uses annual billing and they are profitable, so annual billing causes profitability. Since churn happens monthly, and annual plans only renew once a year, annual billing mathematically eliminates 11 out of every 12 churn events, guaranteeing an 11x improvement in retention.",
+  "expected": "Logic critic should flag the non-sequiturs and false causation (correlation->causation on competitor profitability, the '11x retention' leap, circular claim that annual billing raises per-customer revenue). Individual facts are mostly true and it does answer the question, so accuracy and completeness should be comparatively clean."
+}
