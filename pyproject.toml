@@ -1,0 +1,35 @@
+[project]
+name = "llm-arbitration-system"
+version = "0.1.0"
+description = "Multi-agent pipeline: three critics evaluate an LLM output, an adjudicator resolves their disagreements into one confidence-scored verdict."
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.7",
+    "instructor>=1.5",
+    "openai>=1.40",
+    "anthropic>=0.34",
+    "langgraph>=0.2",
+    "tenacity>=8.5",
+    "python-dotenv>=1.0",
+    "fastapi>=0.111",
+    "uvicorn>=0.30",
+    "streamlit>=1.37",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-mock>=3.14", "httpx>=0.27"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.pytest.ini_options]
+# The default temp base under %TEMP%\pytest-of-<user> has broken ACLs on this
+# machine; use a project-local temp dir so tmp_path fixtures work.
+addopts = "--basetemp=.pytest_tmp"
+markers = [
+    "live: tests that make real API/Ollama calls (skipped unless providers configured)",
+]
